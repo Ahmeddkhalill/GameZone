@@ -1,6 +1,5 @@
 using System.Diagnostics;
-using GameZone.Models;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace GameZone.Controllers
 {

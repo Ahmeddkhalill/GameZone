@@ -24,3 +24,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* start custom styles*/
+.cover-preview {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+    .cover-preview:hover {
+        transform: scale(1.02);
+    }

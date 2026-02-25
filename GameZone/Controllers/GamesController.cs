@@ -1,16 +1,26 @@
 ﻿namespace GameZone.Controllers;
 
-public class GamesController(ApplicationDbContext context,ICategoriesService categoryService,
-                            IDevicesService devicesService, IGamesService gamesService) : Controller
+public class GamesController(ICategoriesService categoryService,IDevicesService devicesService, IGamesService gamesService) : Controller
 {
-    private readonly ApplicationDbContext _context = context;
+
     private readonly ICategoriesService _categoryervice = categoryService;
     private readonly IDevicesService _devicesService = devicesService;
     private readonly IGamesService _gamesService = gamesService;
 
     public IActionResult Index()
     {
-        return View();
+        var games = _gamesService.GetAll();
+        return View(games);
+    }
+
+    public IActionResult Details(int id)
+    {
+        var game = _gamesService.GetById(id);
+
+        if (game is null)
+            return NotFound();
+
+        return View(game);   
     }
 
     [HttpGet]

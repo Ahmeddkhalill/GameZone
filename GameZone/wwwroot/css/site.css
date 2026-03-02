@@ -38,3 +38,13 @@ body {
     .cover-preview:hover {
         transform: scale(1.02);
     }
+
+/* Start Override SweetAlert2 */
+.swal2-title, .swal2-html-container {
+    color: #fff !important;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+    background: #1a0933;
+}
+/* End Override SweetAlert2 */

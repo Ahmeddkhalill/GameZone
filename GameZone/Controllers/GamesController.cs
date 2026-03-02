@@ -50,8 +50,56 @@ public class GamesController(ICategoriesService categoryService,IDevicesService 
 
         await _gamesService.Create(model);
 
-        // save cover to server
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var game = _gamesService.GetById(id);
+
+        if (game is null)
+            return NotFound();
+
+        EditGameFormViewModel viewModel = new()
+        {
+            Id = id,
+            Name = game.Name,
+            Description = game.Description,
+            CategoryId = game.CategoryId,
+            SelectedDevices = game.Devices.Select(d => d.DeviceId).ToList(),
+            Categories = _categoryervice.GetSelectList(),
+            Devices = _devicesService.GetSelectList(),
+            CurrentCover = game.Cover
+        };
+
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(EditGameFormViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            model.Categories = _categoryervice.GetSelectList();
+            model.Devices = _devicesService.GetSelectList();
+            return View(model);
+        }
+
+        var game = await _gamesService.Update(model);
+
+        if (game is null)
+            return BadRequest();
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpDelete]
+    public IActionResult Delete(int id)
+    {
+        var isDeleted = _gamesService.Delete(id);
+
+        return isDeleted ? Ok() : BadRequest();
     }
 }
